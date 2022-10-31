@@ -27,34 +27,12 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
         setModal(true);
         //    getRootPane().setDefaultButton(buttonOpen);
 
-        buttonClose.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onButtonClose();
-            }
-        });
-        buttonSave.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onButtonSave();
-            }
-        });
-        buttonOpenTop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onButtonOpenTop();
-            }
-        });
-        buttonOpenBottom.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                                                   onButtonOpenBottom();
-                                               }
-        });
-        buttonGetSelectionTop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onButtonGetSelectionTop();
-            }
-        });
-        buttonGetSelectionBottom.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { onButtonGetSelectionBottom();}
-        });
+        buttonClose.addActionListener(e -> onButtonClose());
+        buttonSave.addActionListener(e -> onButtonSave());
+        buttonOpenTop.addActionListener(e -> onButtonOpenTop());
+        buttonOpenBottom.addActionListener(e -> onButtonOpenBottom());
+        buttonGetSelectionTop.addActionListener(e -> onButtonGetSelectionTop());
+        buttonGetSelectionBottom.addActionListener(e -> onButtonGetSelectionBottom());
 
         // call onCancel() when cross is clicked
         addWindowListener(new WindowAdapter() {
@@ -125,44 +103,11 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
             try {
                 if (in != null)
                     in.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }
-    public void loadAndDisplayFile2(String directory, String filename) {
-        if ((filename == null) || (filename.length() == 0))
-            return;
-        File file;
-        FileReader in = null;
-        // Read and display the file contents. Since we're reading text, we
-        // use a FileReader instead of a FileInputStream.
-        try {
-            file = new File(directory, filename); // Create a file object
-            in = new FileReader(file); // And a char stream to read it
-            char[] buffer = new char[4096]; // Read 4K characters at a time
-            int len; // How many chars read each time
-            textAreaBottom.setText(""); // Clear the text area
-            while ((len = in.read(buffer)) != -1) { // Read a batch of chars
-                String s = new String(buffer, 0, len); // Convert to a string
-                textAreaBottom.append(s); // And display them
-            }
-            this.setTitle("FileViewer: " + filename); // Set the window title
-            textAreaBottom.setCaretPosition(0); // Go to start of file
-        }
-        // Display messages if something goes wrong
-        catch (IOException e) {
-            textAreaBottom.setText(e.getClass().getName() + ": " + e.getMessage());
-            this.setTitle("FileViewer: " + filename + ": I/O Exception");
-        }
-        // Always be sure to close the input stream!
-        finally {
-            try {
-                if (in != null)
-                    in.close();
-            } catch (IOException e) {
-            }
-        }
-    }
+
     public void saveFile(String directory, String filename) {
         if ((filename == null) || (filename.length() == 0))
             return;
@@ -186,7 +131,7 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
                 if (out != null)
                     out.close();
             }
-            catch (IOException e) {
+            catch (IOException ignored) {
             }
         }
     }
@@ -199,7 +144,6 @@ public class PredlogKorisnickogInterfejsa extends JDialog {
         saveFile(directory, f.getFile()); // Load and display selection
         f.dispose(); // Get rid of the dialog box
     }
-
     private void onButtonClose() {
         // add your code here if necessary
         dispose();
